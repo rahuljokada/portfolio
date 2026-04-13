@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Portfolio</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; scroll-behavior: smooth; }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; width: 100%;
+      background: #222; padding: 15px;
+      z-index: 1000;
+    }
+    .navbar ul {
+      display: flex; justify-content: center; gap: 30px; list-style: none;
+    }
+    .navbar a {
+      color: #fff; text-decoration: none; position: relative;
+      transition: color 0.3s ease;
+    }
+    .navbar a:hover { color: #00bfff; }
+    .navbar a::after {
+      content: ""; position: absolute; width: 0%; height: 2px;
+      bottom: -5px; left: 0; background: #00bfff;
+      transition: width 0.3s ease;
+    }
+    .navbar a:hover::after { width: 100%; }
+
+    /* Home Section */
+    .home {
+      height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white; text-align: center;
+    }
+    .typing { font-size: 1.2rem; margin-top: 10px; }
+
+    /* Sections */
+    .section { min-height: 100vh; padding: 80px 20px; text-align: center; opacity: 0; transform: translateY(50px); transition: all 1s ease; }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    /* Projects */
+    .project-card {
+      background: #f0f0f0; margin: 20px auto; padding: 20px;
+      width: 60%; border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+    .project-card:hover { transform: scale(1.05); }
+
+    /* Skills */
+    .icons {
+      display: flex; justify-content: center; gap: 40px; margin-top: 20px;
+    }
+    .icons i {
+      font-size: 60px; transition: transform 0.5s ease;
+    }
+    .icons i:hover { transform: scale(1.2) rotate(10deg); }
+    .html { color: #e34c26; }
+    .css { color: #264de4; }
+    .js { color: #f7df1e; }
+    .react { color: #61dafb; }
+
+    /* Contact */
+    .contact-form {
+      display: flex; flex-direction: column; gap: 15px;
+      width: 60%; margin: auto;
+    }
+    .contact-form input, .contact-form textarea {
+      padding: 10px; border: 1px solid #ccc; border-radius: 5px;
+    }
+    .contact-form button {
+      padding: 10px; background: #00bfff; border: none;
+      color: white; border-radius: 5px; cursor: pointer;
+    }
+    .contact-form button:hover { background: #007acc; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">My Projects</a></li>
+      <li><a href="#skills">My Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Home -->
+  <section class="home" id="home">
+    <h1>Hi, I'm [Your Name]</h1>
+    <p class="typing"></p>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <h2>About Me</h2>
+    <p>Write a short bio here about your journey, passion, and goals in web development.</p>
+  </section>
+
+  <!-- Projects -->
+  <section class="section" id="projects">
+    <h2>My Projects</h2>
+    <div class="project-card">Project 1</div>
+    <div class="project-card">Project 2</div>
+    <div class="project-card">Project 3</div>
+  </section>
+
+  <!-- Skills -->
+  <section class="section" id="skills">
+    <h2>My Skills</h2>
+    <div class="icons">
+      <i class="fab fa-html5 html"></i>
+      <i class="fab fa-css3-alt css"></i>
+      <i class="fab fa-js js"></i>
+      <i class="fab fa-react react"></i>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section" id="contact">
+    <h2>Contact Me</h2>
+    <form class="contact-form">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea placeholder="Your Message" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <!-- JavaScript -->
+  <script>
+    // Typing effect on homepage
+    const typingElement = document.querySelector(".typing");
+    const textArray = ["Web Developer", "Designer", "Creator"];
+    let textIndex = 0;
+    let charIndex = 0;
+
+    function type() {
+      if (charIndex < textArray[textIndex].length) {
+        typingElement.textContent += textArray[textIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(type, 100);
+      } else {
+        setTimeout(erase, 2000);
+      }
+    }
+
+    function erase() {
+      if (charIndex > 0) {
+        typingElement.textContent = textArray[textIndex].substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(erase, 50);
+      } else {
+        textIndex = (textIndex + 1) % textArray.length;
+        setTimeout(type, 500);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(type, 500);
+    });
+
+    // Scroll-based reveal animations
+    const sections = document.querySelectorAll(".section");
+    window.addEventListener("scroll", () => {
+      const triggerBottom = window.innerHeight * 0.85;
+      sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop < triggerBottom) {
+          section.classList.add("visible");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
